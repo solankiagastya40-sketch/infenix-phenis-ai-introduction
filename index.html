@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#100c0a">
+  <meta name="description" content="Meet Infinix Phenix: an AI for natural conversations, creative voice, image generation, presentations, and everyday problem-solving.">
+  <title>Infinix Phenix — Intelligence, reimagined</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f7f3ef;
+      --muted: #b7aaa2;
+      --accent: #ff7445;
+      --line: rgba(255, 255, 255, .13);
+      --panel: rgba(24, 19, 17, .7);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background-color: #100c0a;
+      background-image: linear-gradient(180deg, rgba(13, 9, 8, .48) 0%, rgba(13, 9, 8, .68) 42%, rgba(16, 12, 10, .96) 82%), url("assets/phoenix.png");
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    .shell { width: min(1120px, calc(100% - 64px)); margin: 0 auto; }
+
+    .topbar {
+      height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, .1);
+    }
+
+    .brand { display: inline-flex; align-items: center; gap: 11px; font: 800 17px "Manrope", sans-serif; letter-spacing: -.5px; }
+    .brand-mark { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid rgba(255, 116, 69, .55); border-radius: 50%; color: var(--accent); }
+    .brand-mark svg { width: 21px; height: 21px; }
+    .brand span span { color: var(--accent); }
+
+    .nav { display: flex; align-items: center; gap: 34px; color: #e2d9d3; font-size: 13px; }
+    .nav a:not(.nav-cta):hover { color: var(--accent); }
+    .nav-cta { padding: 11px 17px; border: 1px solid rgba(255, 255, 255, .3); border-radius: 999px; transition: background .2s, border-color .2s; }
+    .nav-cta:hover { background: rgba(255, 116, 69, .13); border-color: var(--accent); }
+
+    .hero {
+      min-height: 610px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
+      align-items: center;
+      gap: 42px;
+      padding: 90px 0 84px;
+    }
+
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: #ffd1bd; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .eyebrow::before { width: 24px; height: 1px; background: var(--accent); content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 660px; margin: 21px 0 20px; font: 600 clamp(46px, 6vw, 76px)/1.06 "Manrope", sans-serif; letter-spacing: -4px; }
+    h1 em { color: #ff946c; font-style: normal; }
+    .hero-copy { max-width: 515px; margin-bottom: 30px; color: #d3c5bc; font-size: 16px; line-height: 1.8; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+    .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; padding: 0 19px; border: 1px solid transparent; border-radius: 999px; font-size: 13px; font-weight: 700; transition: transform .2s, background .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--accent); color: #1d100b; }
+    .button-primary:hover { background: #ff8b62; }
+    .button-quiet { border-color: rgba(255, 255, 255, .25); color: #f2e9e3; }
+    .button-quiet:hover { background: rgba(255, 255, 255, .08); }
+    .button svg { width: 16px; height: 16px; }
+
+    .assistant-card {
+      position: relative;
+      max-width: 355px;
+      justify-self: end;
+      padding: 22px;
+      border: 1px solid rgba(255, 221, 204, .2);
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(38, 25, 20, .77), rgba(15, 13, 13, .78));
+      box-shadow: 0 22px 80px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .08);
+      backdrop-filter: blur(16px);
+    }
+    .assistant-card::before { position: absolute; z-index: -1; top: -22px; right: -17px; width: 130px; height: 130px; border-radius: 50%; background: rgba(255, 91, 39, .2); filter: blur(40px); content: ""; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .card-label { display: flex; align-items: center; gap: 9px; color: #f5ebe5; font-size: 12px; font-weight: 600; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #8de0ad; box-shadow: 0 0 10px rgba(141, 224, 173, .7); }
+    .card-kicker { color: #a99a92; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+    .chat-line { display: flex; gap: 10px; margin-top: 20px; }
+    .chat-avatar { flex: 0 0 27px; width: 27px; height: 27px; display: grid; place-items: center; border-radius: 9px; background: rgba(255, 116, 69, .15); color: #ff9a73; }
+    .chat-avatar svg { width: 15px; height: 15px; }
+    .chat-bubble { padding: 11px 12px; border: 1px solid rgba(255, 255, 255, .09); border-radius: 3px 12px 12px 12px; background: rgba(255, 255, 255, .055); color: #e6dcd5; font-size: 11px; line-height: 1.7; }
+    .chat-bubble.answer { border-color: rgba(255, 116, 69, .16); background: rgba(255, 116, 69, .08); }
+    .voice-row { display: flex; align-items: center; gap: 11px; margin-top: 20px; padding: 13px 12px; border: 1px solid var(--line); border-radius: 12px; }
+    .play-button { width: 28px; height: 28px; display: grid; flex: 0 0 28px; place-items: center; border-radius: 50%; background: var(--accent); color: #1d100b; }
+    .play-button svg { width: 12px; height: 12px; }
+    .wave { height: 27px; display: flex; flex: 1; align-items: center; justify-content: space-between; gap: 3px; }
+    .wave i { width: 3px; height: var(--bar); border-radius: 4px; background: linear-gradient(#ffbd9f, #f4663b); opacity: .9; }
+    .voice-time { color: #b7aaa2; font-size: 10px; }
+
+    .trust-row { display: flex; align-items: center; gap: 14px; margin-top: 34px; color: #c5b6ae; font-size: 11px; }
+    .trust-stars { color: #ffae83; letter-spacing: 2px; }
+
+    .section { padding: 84px 0; }
+    .section-heading { max-width: 610px; margin-bottom: 34px; }
+    .section-heading h2 { margin: 15px 0 12px; font: 600 clamp(30px, 4vw, 43px)/1.16 "Manrope", sans-serif; letter-spacing: -1.7px; }
+    .section-heading p { max-width: 520px; margin-bottom: 0; color: var(--muted); font-size: 14px; line-height: 1.8; }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+    .feature {
+      min-height: 225px;
+      padding: 21px 19px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: linear-gradient(145deg, rgba(29, 23, 21, .86), rgba(17, 15, 14, .8));
+      transition: transform .2s, border-color .2s;
+    }
+    .feature:hover { transform: translateY(-4px); border-color: rgba(255, 116, 69, .48); }
+    .feature-icon { width: 39px; height: 39px; display: grid; place-items: center; margin-bottom: 28px; border: 1px solid rgba(255, 116, 69, .27); border-radius: 12px; background: rgba(255, 116, 69, .09); color: #ff9871; }
+    .feature-icon svg { width: 19px; height: 19px; }
+    .feature h3 { margin-bottom: 9px; font: 700 14px "Manrope", sans-serif; }
+    .feature p { margin-bottom: 0; color: #b9ada6; font-size: 12px; line-height: 1.75; }
+
+    .showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 17px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      background: rgba(22, 18, 17, .72);
+    }
+    .showcase-copy { display: flex; flex-direction: column; justify-content: center; padding: 24px 24px 24px 16px; }
+    .showcase-copy h2 { margin: 15px 0 13px; font: 600 clamp(28px, 3.5vw, 39px)/1.17 "Manrope", sans-serif; letter-spacing: -1.5px; }
+    .showcase-copy p { margin-bottom: 20px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .showcase-copy .button { align-self: flex-start; }
+    .visual-grid { min-height: 310px; display: grid; grid-template-columns: 1.12fr .88fr; grid-template-rows: 1fr 1fr; gap: 10px; }
+    .visual {
+      position: relative;
+      min-height: 145px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 12px;
+      background: #28201d;
+      background-position: center;
+      background-size: cover;
+    }
+    .visual::after { position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, rgba(12, 9, 8, .88)); content: ""; }
+    .visual-main { grid-row: span 2; background-image: url("https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=85"); }
+    .visual-deck { background-image: url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=650&q=85"); }
+    .visual-create { background-image: url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=650&q=85"); }
+    .visual-label { position: absolute; z-index: 1; right: 12px; bottom: 12px; left: 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; font-weight: 600; }
+    .visual-label span:last-child { color: #ffb393; font-size: 9px; font-weight: 500; }
+
+    .closing { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 33px 0 74px; padding: 25px 28px; border: 1px solid rgba(255, 116, 69, .24); border-radius: 15px; background: linear-gradient(100deg, rgba(91, 39, 24, .35), rgba(28, 20, 17, .75)); }
+    .closing h2 { margin: 0 0 5px; font: 700 19px "Manrope", sans-serif; }
+    .closing p { margin: 0; color: var(--muted); font-size: 12px; }
+
+    footer { padding: 20px 0 27px; border-top: 1px solid var(--line); color: #a99b94; font-size: 11px; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+    .footer-brand { color: #e8ded8; font-weight: 700; }
+    .footer-note { color: #8f827b; }
+
+    @media (max-width: 850px) {
+      .hero { min-height: 560px; grid-template-columns: 1fr .8fr; gap: 20px; }
+      .assistant-card { padding: 17px; }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature { min-height: 195px; }
+      .showcase { grid-template-columns: 1fr; }
+      .showcase-copy { padding: 16px 10px 6px; }
+    }
+
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 38px, 480px); }
+      body { background-size: auto 650px; background-position: 53% top; }
+      .topbar { height: 70px; }
+      .nav { gap: 0; }
+      .nav a:not(.nav-cta) { display: none; }
+      .nav-cta { padding: 9px 13px; font-size: 11px; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 34px; padding: 80px 0 66px; }
+      h1 { max-width: 450px; font-size: clamp(45px, 13vw, 64px); letter-spacing: -2.8px; }
+      .hero-copy { font-size: 14px; }
+      .assistant-card { width: 100%; max-width: 390px; justify-self: start; }
+      .section { padding: 62px 0; }
+      .section-heading { margin-bottom: 25px; }
+      .feature-grid { gap: 10px; }
+      .feature { min-height: 210px; padding: 17px 14px; }
+      .feature-icon { margin-bottom: 21px; }
+      .showcase { padding: 12px; }
+      .showcase-copy { padding: 16px 8px 8px; }
+      .visual-grid { min-height: 250px; gap: 7px; }
+      .visual { min-height: 120px; }
+      .closing { align-items: flex-start; flex-direction: column; margin: 25px 0 54px; padding: 22px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell topbar">
+    <a class="brand" href="#" aria-label="Infinix Phenix home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4.6 15.8c1.7 2.2 4.7 2.1 7.4-1.6l1-1.4c2.7-3.7 5.7-3.8 7.4-1.6 1.7 2.2.4 5.4-2.2 5.4-1.3 0-2.4-.7-3.3-1.7M19.4 8.2c-1.7-2.2-4.7-2.1-7.4 1.6l-1 1.4c-2.7 3.7-5.7 3.8-7.4 1.6-1.7-2.2-.4-5.4 2.2-5.4 1.3 0 2.4.7 3.3 1.7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </span>
+      <span>infinix <span>phenix</span></span>
+    </a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#capabilities">Capabilities</a>
+      <a href="#creative-studio">Creative studio</a>
+      <a class="nav-cta" href="#capabilities">Discover Phenix <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">Meet your next-generation AI</div>
+        <h1 id="hero-title">Intelligence that rises to <em>every challenge.</em></h1>
+        <p class="hero-copy">Meet Infinix Phenix: a thoughtful AI companion for the way you think, create, and get things done. From a natural conversation to a finished presentation, your next idea starts here.</p>
+        <div class="actions">
+          <a class="button button-primary" href="#capabilities">Explore capabilities
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="button button-quiet" href="#creative-studio">See what you can create</a>
+        </div>
+        <div class="trust-row"><span class="trust-stars" aria-hidden="true">✦ ✦ ✦ ✦ ✦</span><span>One assistant. A world of possibility.</span></div>
+      </div>
+
+      <aside class="assistant-card" aria-label="A preview of an Infinix Phenix conversation">
+        <div class="card-top">
+          <div class="card-label"><span class="status-dot"></span> Phenix assistant</div>
+          <span class="card-kicker">Always ready</span>
+        </div>
+        <div class="chat-line">
+          <div class="chat-avatar" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M4 4.5h12v8H9l-3.5 3v-3H4v-8Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M7 8h6M7 10.5h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          </div>
+          <div class="chat-bubble">I have a big idea but I'm not sure where to start.</div>
+        </div>
+        <div class="chat-line">
+          <div class="chat-avatar" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M10 2.8 11.8 8l5.4 2-5.4 1.8-1.8 5.4-1.8-5.4L2.8 10l5.4-2L10 2.8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="chat-bubble answer">Let's shape it together. Tell me what you want to make, and we'll turn it into a clear first step.</div>
+        </div>
+        <div class="voice-row" aria-label="Voice preview illustration">
+          <span class="play-button" aria-hidden="true"><svg viewBox="0 0 12 12" fill="currentColor"><path d="M3 1.7c0-.5.5-.8.9-.5l6 4.3c.4.3.4.9 0 1.2l-6 4.1c-.4.3-.9 0-.9-.5V1.7Z"/></svg></span>
+          <span class="wave" aria-hidden="true">
+            <i style="--bar:9px"></i><i style="--bar:18px"></i><i style="--bar:12px"></i><i style="--bar:23px"></i><i style="--bar:15px"></i><i style="--bar:25px"></i><i style="--bar:11px"></i><i style="--bar:19px"></i><i style="--bar:8px"></i><i style="--bar:22px"></i><i style="--bar:14px"></i><i style="--bar:25px"></i><i style="--bar:10px"></i><i style="--bar:18px"></i><i style="--bar:12px"></i><i style="--bar:22px"></i><i style="--bar:8px"></i>
+          </span>
+          <span class="voice-time">0:18</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="shell section" id="capabilities" aria-labelledby="capabilities-title">
+      <div class="section-heading">
+        <div class="eyebrow">Made to do more</div>
+        <h2 id="capabilities-title">One AI. Many ways forward.</h2>
+        <p>Bring your questions, big ideas, and busywork. Phenix helps you move from “what if?” to “what’s next?”</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5h16v11H9l-5 3v-14Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 9h8M8 12.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h3>Natural conversation</h3>
+          <p>Ask follow-up questions, explore ideas, and get helpful answers in a conversation that feels easy.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M8 7.5a4 4 0 0 1 8 0c0 2.2-1.8 3-4 4.5s-4 2.3-4 4.5a4 4 0 0 0 8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h3>A voice that's yours</h3>
+          <p>Give spoken experiences a new feel with expressive voice styles and flexible voice changing.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m12 3 1.8 5.3L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.7L12 3Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="m19 15 .9 2.2 2.1.8-2.1.8L19 21l-.8-2.2-2.2-.8 2.2-.8L19 15Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
+          <h3>Ideas into images</h3>
+          <p>Describe a scene, concept, or visual direction and transform your words into original imagery.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="15" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 22h8m-4-3v3M7 14l3-3 2 2 4-5 2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>Presentations, polished</h3>
+          <p>Turn a rough brief into an organized slide deck, ready to refine and share with confidence.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell section" id="creative-studio" aria-labelledby="studio-title">
+      <div class="showcase">
+        <div class="showcase-copy">
+          <div class="eyebrow">From prompt to possibility</div>
+          <h2 id="studio-title">Make room for your next big idea.</h2>
+          <p>Build a visual concept, shape a presentation, or simply think something through. Phenix brings creative tools and practical problem-solving into one focused space.</p>
+          <a class="button button-quiet" href="#capabilities">Explore the toolkit
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="visual-grid" aria-label="Examples of creative AI work">
+          <div class="visual visual-main"><div class="visual-label"><span>Generative imagery</span><span>CREATE</span></div></div>
+          <div class="visual visual-deck"><div class="visual-label"><span>Ideas to slides</span><span>PRESENT</span></div></div>
+          <div class="visual visual-create"><div class="visual-label"><span>Explore what's possible</span><span>IMAGINE</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell closing" aria-label="Call to action">
+      <div>
+        <h2>Your next idea deserves a great start.</h2>
+        <p>Think it through, create something new, and keep moving forward with Phenix.</p>
+      </div>
+      <a class="button button-primary" href="next.html">Explore every feature <span aria-hidden="true">↗</span></a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <span class="footer-brand">infinix phenix</span>
+      <span>Thoughtful intelligence. Limitless possibility.</span>
+      <span class="footer-note">An AI companion for what comes next.</span>
+    </div>
+  </footer>
+</body>
+</html>
